@@ -17,7 +17,6 @@ class HomepagePresenterTest extends TestCase
 	public function setUp()
 	{
 		$this->presenter = new HomepagePresenter(Environment::getContainer());
-		$this->presenter->autoCanonicalize = FALSE;
 	}
 
 
@@ -26,7 +25,8 @@ class HomepagePresenterTest extends TestCase
 		$request = new Nette\Application\Request('Homepage', 'GET', array());
 		$response = $this->presenter->run($request);
 
-		$this->assertInstanceOf('Nette\Application\Responses\TextResponse', $response);
 		$this->assertEquals('any value', $this->presenter->template->anyVariable);
+		$this->assertInstanceOf('Nette\Application\Responses\TextResponse', $response);
 	}
+
 }
