@@ -25,7 +25,15 @@ common:
 
 
 	services:
-		authenticator: Authenticator
+		#authenticator: Authenticator
+		authenticator:
+			class: Nette\Security\SimpleAuthenticator
+			arguments: [[
+				admin: 1234
+			]]
+
+		loginFormFactory:
+			class: LoginFormFactory
 
 
 	factories:
