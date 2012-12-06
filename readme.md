@@ -1,4 +1,4 @@
-Kalendář
+﻿Kalendář
 ========
 
 Instalace
@@ -16,7 +16,8 @@ Testování
 
 	
 GIT Help:
-- pokud zde píšu blbosti, prosím opravte to. Git není můj nejlepší kamarád ;).
+========
+
 
   1) stažení projektu:
     git clone https://github.com/siliconhill/calendar.git calendar
@@ -28,7 +29,8 @@ GIT Help:
     git push origin
 
 Testování:
-  Na linuxu:
+==========
+
   Spuštění testů po nainstalování phpunit:
   1) php libs/bin/phpunit
 
@@ -38,6 +40,7 @@ Testování:
   Spuštění testů po nainstalování phpunit:
   ??
   
- Composer na windowsu:
+
+Composer na windowsu:
   composer install
    
