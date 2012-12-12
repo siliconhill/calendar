@@ -30,6 +30,7 @@ class LoginFormFactory extends Object
 			$form->presenter->user->login($form['name']->value, $form['password']->value);
 		} catch (\Nette\Security\AuthenticationException $e) {
 			$form->addError($e->getMessage());
+			$form->presenter->flashMessage($e->getMessage(), 'warning');
 		}
 	}
 }

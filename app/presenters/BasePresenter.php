@@ -1,34 +1,32 @@
 <?php
 
+use Nette\Application\UI\Form;
+
 /**
  * Base presenter for all application presenters.
  */
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
 
-	/** @var LoginFormFactory */
-	protected $loginFormFactory;
+	/** @var LoginControl */
+	protected $loginControl;
 
 
 	/**
-	 * @param LoginFormFactory $loginFormFactory
+	 * @param \LoginControl $loginControl
 	 */
-	public function injectLoginFormFactory(LoginFormFactory $loginFormFactory)
+	public function injectLoginControl(LoginControl $loginControl)
 	{
-		$this->loginFormFactory = $loginFormFactory;
+		$this->loginControl = $loginControl;
 	}
 
 
-	public function createComponentLogin()
+	/**
+	 * @return LoginControl
+	 */
+	protected function createComponentLogin()
 	{
-		$form = $this->loginFormFactory->create();
-		$form->onSuccess[] = $this->loginSuccess;
-		return $form;
-	}
-
-
-	public function loginSuccess()
-	{
-		$this->flashMessage('Uživatel byl vpořádku přihlášen', 'success');
+		$control = $this->loginControl;
+		return $control;
 	}
 }
