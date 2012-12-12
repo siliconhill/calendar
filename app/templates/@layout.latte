@@ -65,7 +65,11 @@
 
 			<div class="row">
 				<div class="span12">
-					<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+					<div n:foreach="$flashes as $flash" class="alert{if $flash->type} alert-{$flash->type}{/if}">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						{if $flash->type}<h4>{$flash->type}</h4>{/if}
+						{$flash->message}
+					</div>
 					{include #content}
 				</div>
 			</div>
