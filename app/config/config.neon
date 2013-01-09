@@ -35,6 +35,9 @@ common:
 		loginFormFactory:
 			class: LoginFormFactory
 
+		eventFormFactory:
+			class: EventFormFactory
+
 		loginControl:
 			class: LoginControl
 

@@ -32,7 +32,8 @@ class LoginControl extends Control
 	public function loginSuccess(Form $form)
 	{
 		if ($form->isValid()) {
-			$this->flashMessage('Uživatel byl vpořádku přihlášen', 'success');
+			$this->presenter->flashMessage('Uživatel byl vpořádku přihlášen', 'success');
+			$this->redirect('this');
 		}
 	}
 

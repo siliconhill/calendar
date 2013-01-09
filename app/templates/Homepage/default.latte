@@ -1,28 +1,15 @@
 {* This is the welcome page, you can delete it *}
 
 {block content}
-<h1 n:block=title>Congratulations!</h1>
 
-	<h2>You have successfully created your Nette Framework project.</h2>
+<ul>
+	<li><a n:href="create">přidat event</a></li>
+</ul>
 
-	<div class="box">
-		<h2><img src="http://files.nette.org/sandbox/sourcecode.png" alt="">Explore source codes</h2>
-		<p>See source code of <a href="#template">this page template</a>, <a href="#layout">layout template</a> and
-		<a href="#presenter">corresponding presenter</a>. And feel free to modify them!</p>
-	</div>
+<h2>Eventy</h2>
 
-	<div class="box">
-		<h2><a href="{$basePath}/adminer/"><img src="http://files.nette.org/sandbox/database.png" alt="">Manage database tables</a></h2>
-		<p>Manage your database using pre-installed tool <a href="{$basePath}/adminer/">Adminer</a> with an easy to use GUI.<p>
-	</div>
-
-	<div class="box">
-		<h2><a href="http://doc.nette.org/quickstart"><img src="http://files.nette.org/sandbox/book.png" alt="">Read<br>Quick-start tutorial</a></h2>
-		<p>If you are exploring Nette Framework for the first time, you should read the
-		<a href="http://doc.nette.org/quickstart">Quick Start</a>, <a href="http://doc.nette.org">documentation</a>,
-		<a href="http://pla.nette.org">tutorials</a> and <a href="http://forum.nette.org">forum</a>.</p>
-	</div>
-
-	<h2>We hope you enjoy this framework!</h2>
-
-{/block}
+<ul>
+{foreach $events as $event}
+	<li>{$event->name} - {$event->id} - <a n:href="edit id=>$event->id">editovat</a></li>
+{/foreach}
+</ul>

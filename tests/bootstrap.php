@@ -5,6 +5,7 @@ require_once __DIR__ . '/../libs/autoload.php';
 use Nette\Config\Configurator;
 
 $configurator = new Configurator();
+$configurator->addConfig(__DIR__ . '/../app/config/config.neon');
 $configurator->setDebugMode();
 $configurator->enableDebugger(__DIR__ . '/temp/log');
 $configurator->setTempDirectory(__DIR__ . '/temp');
