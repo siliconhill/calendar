@@ -42,7 +42,6 @@ class HomepagePresenterTest extends TestCase
 		$request = new Nette\Application\Request('Homepage', 'GET', array('action' => 'create'));
 		$response = $this->presenter->run($request);
 
-		$this->assertInstanceOf('Nette\Application\UI\Form', $this->presenter['eventForm']);
 		$this->assertInstanceOf('Nette\Application\Responses\TextResponse', $response);
 	}
 

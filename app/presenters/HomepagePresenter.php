@@ -57,14 +57,14 @@ class HomepagePresenter extends BasePresenter
 		} else {
 			$form = $this->eventFormFactory->create();
 		}
-		$form->onSuccess[] = $this->eventFormSuccess;
+		$form['_submit']->onClick[] = $this->eventFormSuccess;
 		return $form;
 	}
 
 
-	public function eventFormSuccess(Form $form)
+	public function eventFormSuccess($button)
 	{
-		if ($form->isValid()) {
+		if ($button->form->isValid()) {
 			if ($this->id) {
 				$this->flashMessage('Event byl zeditován');
 			} else {
