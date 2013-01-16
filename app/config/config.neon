@@ -25,12 +25,15 @@ common:
 
 
 	services:
-		#authenticator: Authenticator
 		authenticator:
-			class: Nette\Security\SimpleAuthenticator
-			arguments: [[
-				admin: 1234
-			]]
+			class: Authenticator
+
+		authorizator:
+			class: Nette\Security\IAuthorizator
+			factory: @authorizatorFactory::createForUser
+
+		authorizatorFactory:
+			class: AuthorizatorFactory
 
 		loginFormFactory:
 			class: LoginFormFactory

@@ -5,8 +5,10 @@ use Nette\Database\Connection;
 
 /**
  * Homepage presenter.
+ *
+ * @Secured
  */
-class HomepagePresenter extends BasePresenter
+class HomepagePresenter extends SecuredPresenter
 {
 
 	/**
