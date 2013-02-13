@@ -12,6 +12,10 @@ class EventFormFactory extends Object
 	protected $connection;
 
 
+	/** @var int */
+	protected $id;
+
+
 	/**
 	 * @param Nette\Database\Connection $connection
 	 */
@@ -29,13 +33,11 @@ class EventFormFactory extends Object
 		$form = new Form();
 		$form->addGroup();
 		$form->setRenderer(new \Kdyby\Extension\Forms\BootstrapRenderer\BootstrapRenderer());
-		$form->addHidden('id');
 		$form->addText('name', 'Name');
 		$form->addTextArea('description', 'Popis');
 
 		$instances = $form->addDynamic('instances', function (\Nette\Forms\Container $container) {
 			$container->setCurrentGroup($container->form->addGroup('Instance'));
-			$container->addHidden('id');
 			$container->addText('timeStart', 'Start');
 			$container->addText('timeEnd', 'End');
 			$container->addSubmit('remove', 'Smazat')->addRemoveOnClick();
@@ -52,6 +54,7 @@ class EventFormFactory extends Object
 
 	public function createEdit($id)
 	{
+		$this->id = $id;
 		$form = $this->create();
 
 		$row = $this->connection->table('event')->find($id)->fetch();
@@ -78,12 +81,12 @@ class EventFormFactory extends Object
 
 		try {
 			$this->connection->beginTransaction();
-			if (!$data['id']) {
+			if (!$this->id) {
 				$this->connection->table('event')->insert($data);
 				$id = $this->connection->lastInsertId();
 			} else {
-				$this->connection->table('event')->where(array('id' => $data['id']))->update($data);
-				$id = $data['id'];
+				$this->connection->table('event')->where(array('id' => $this->id))->update($data);
+				$id = $this->id;
 			}
 
 			$this->connection->table('instance')->where(array('event_id' => $id))->delete();

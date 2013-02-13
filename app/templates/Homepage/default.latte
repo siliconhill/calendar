@@ -3,13 +3,13 @@
 {block content}
 
 <ul>
-	<li><a n:href="create">přidat event</a></li>
+	<li n:if="$presenter->isLinkAllowed('create')"><a n:href="create">přidat event</a></li>
 </ul>
 
 <h2>Eventy</h2>
 
 <ul>
 {foreach $events as $event}
-	<li>{$event->name} - {$event->id} - <a n:href="edit id=>$event->id">editovat</a></li>
+	<li>{$event->name} - {$event->id} - <a  n:if="$presenter->user->isAllowed($presenter->getResource(), 'edit')" n:href="edit id=>$event->id">editovat</a></li>
 {/foreach}
 </ul>

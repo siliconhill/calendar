@@ -30,7 +30,7 @@ common:
 
 		authorizator:
 			class: Nette\Security\IAuthorizator
-			factory: @authorizatorFactory::createForUser
+			factory: @authorizatorFactory::createForUserWithCache
 
 		authorizatorFactory:
 			class: AuthorizatorFactory

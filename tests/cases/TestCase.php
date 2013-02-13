@@ -11,7 +11,7 @@ class TestCase extends PHPUnit_Framework_TestCase
 
 	protected function login()
 	{
-		Environment::getContext()->user->login('admin', '1234');
+		Environment::getContext()->user->login('test', 'tajne');
 	}
 
 

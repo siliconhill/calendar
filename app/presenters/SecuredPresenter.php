@@ -12,8 +12,7 @@ abstract class SecuredPresenter extends BasePresenter
 
 		if ($ref->hasAnnotation('Secured')) {
 			if ($this->user->isLoggedIn()) {
-				$classSecured = $ref->getAnnotation('Secured');
-				$resource = isset($classSecured['resource']) ? $classSecured['resource'] : $this->name;
+				$resource = $this->getResource();
 				$privilege = $this->action;
 
 				if (!$this->user->isAllowed($resource, $privilege)) {
@@ -25,5 +24,30 @@ abstract class SecuredPresenter extends BasePresenter
 		}
 
 		parent::startup();
+	}
+
+
+	public function getResource()
+	{
+		$ref = $this->getReflection();
+
+		if (!$ref->hasAnnotation('Secured')) {
+			return NULL;
+		}
+
+		$classSecured = $ref->getAnnotation('Secured');
+		return isset($classSecured['resource']) ? $classSecured['resource'] : $this->name;
+	}
+
+
+	public function isLinkAllowed($link)
+	{
+		if (substr($link, 0, 1) === ':') {
+			// @ToDo
+		}
+
+		$link = trim($link, '!');
+
+		return $this->user->isAllowed($this->getResource(), 'create');
 	}
 }

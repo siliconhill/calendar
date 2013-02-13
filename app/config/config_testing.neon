@@ -1,0 +1,17 @@
+common:
+	parameters:
+		phpunit:
+			account:
+				login: test
+				password: tajne
+
+	nette:
+		database:
+			dsn: 'mysql:host=localhost;dbname=myapp_test'
+			user: root
+			password:
+
+
+production < common:
+
+development < common:

@@ -9,15 +9,19 @@ class AuthorizatorFactory extends \Nette\Object
 	/** @var \Nette\Security\User */
 	private $user;
 
+	/** @var \Nette\Http\Session */
+	private $session;
+
 
 	/**
 	 * @param Nette\Database\Connection $database
 	 * @param Nette\Security\User $user
 	 */
-	public function __construct(Nette\Database\Connection $database, \Nette\Security\User $user)
+	public function __construct(Nette\Database\Connection $database, \Nette\Security\User $user, \Nette\Http\Session $session)
 	{
 		$this->database = $database;
 		$this->user = $user;
+		$this->session = $session;
 	}
 
 
@@ -49,13 +53,27 @@ class AuthorizatorFactory extends \Nette\Object
 		$user = $user ? : $this->user;
 		$permissions = $this->create();
 
-		if ($user->getIdentity() && count($user->identity->getRoles()) > 0) {
-			foreach ($this->database->table('role_resource')->where('role_id', array($user->identity->getRoles())) as $role_resource) {
-				$permissions->allow($role_resource->role->name, $role_resource->resource->name, $role_resource->privilege ? : NULL);
+		if ($user->isLoggedIn() && count($user->identity->getRoles()) > 0) {
+			foreach ($user->identity->getRoles() as $role) {
+				$roleId = $this->database->table('role')->where('name', $role)->fetch()->id;
+				foreach ($this->database->table('role_resource')->where('role_id', $roleId) as $role_resource) {
+					$permissions->allow($role_resource->role->name, $role_resource->resource->name, $role_resource->privilege ? : NULL);
+				}
 			}
 		}
 
 		return $permissions;
+	}
+
+
+	public function createForUserWithCache()
+	{
+		$section = $this->getSessionSection();
+		if (!isset($section->permissions)) {
+			$section->permissions = $this->createForUser();
+		}
+
+		return $section->permissions;
 	}
 
 
@@ -84,5 +102,14 @@ class AuthorizatorFactory extends \Nette\Object
 		foreach ($row->related('resource') as $row) {
 			$this->addResource($permissions, $row);
 		}
+	}
+
+
+	/**
+	 * @return Nette\Http\SessionSection
+	 */
+	protected function getSessionSection()
+	{
+		return $this->session->getSection('permissions');
 	}
 }

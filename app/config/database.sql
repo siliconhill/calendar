@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.8
+-- version 3.5.5
 -- http://www.phpmyadmin.net
 --
 -- Počítač: localhost
--- Vygenerováno: Stř 16. led 2013, 18:44
--- Verze MySQL: 5.5.29
--- Verze PHP: 5.4.10
+-- Vygenerováno: Stř 13. úno 2013, 10:24
+-- Verze MySQL: 5.5.29-MariaDB-log
+-- Verze PHP: 5.4.11
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -25,7 +25,15 @@ CREATE TABLE IF NOT EXISTS `event` (
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+
+--
+-- Vypisuji data pro tabulku `event`
+--
+
+INSERT INTO `event` (`id`, `name`, `description`) VALUES
+(11, 'test', 'default'),
+(12, 'test', 'popis');
 
 -- --------------------------------------------------------
 
@@ -40,7 +48,16 @@ CREATE TABLE IF NOT EXISTS `instance` (
   `timeEnd` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `event_id` (`event_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+--
+-- Vypisuji data pro tabulku `instance`
+--
+
+INSERT INTO `instance` (`id`, `event_id`, `timeStart`, `timeEnd`) VALUES
+(8, 12, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(9, 11, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 11, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -56,6 +73,13 @@ CREATE TABLE IF NOT EXISTS `resource` (
   KEY `resource_id` (`resource_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+--
+-- Vypisuji data pro tabulku `resource`
+--
+
+INSERT INTO `resource` (`id`, `name`, `resource_id`) VALUES
+(1, 'Homepage', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -70,6 +94,15 @@ CREATE TABLE IF NOT EXISTS `role` (
   KEY `role_id` (`role_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
+--
+-- Vypisuji data pro tabulku `role`
+--
+
+INSERT INTO `role` (`id`, `name`, `role_id`) VALUES
+(1, 'guest', NULL),
+(2, 'registered', 1),
+(3, 'admin', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -83,6 +116,15 @@ CREATE TABLE IF NOT EXISTS `role_resource` (
   PRIMARY KEY (`role_id`,`resource_id`,`privilege`),
   KEY `resource_id` (`resource_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Vypisuji data pro tabulku `role_resource`
+--
+
+INSERT INTO `role_resource` (`role_id`, `resource_id`, `privilege`) VALUES
+(3, 1, 'create'),
+(3, 1, 'default'),
+(3, 1, 'edit');
 
 -- --------------------------------------------------------
 
@@ -99,6 +141,13 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+--
+-- Vypisuji data pro tabulku `user`
+--
+
+INSERT INTO `user` (`id`, `name`, `password`, `salt`, `realname`) VALUES
+(1, 'test', '$1$qkHf3L.J$ELa28tt3SRhCMWf6R7uuZ1', '', 'Test');
+
 -- --------------------------------------------------------
 
 --
@@ -111,6 +160,13 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   PRIMARY KEY (`user_id`,`role_id`),
   KEY `role_id` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Vypisuji data pro tabulku `user_role`
+--
+
+INSERT INTO `user_role` (`user_id`, `role_id`) VALUES
+(1, 3);
 
 --
 -- Omezení pro exportované tabulky
@@ -145,5 +201,5 @@ ALTER TABLE `role_resource`
 -- Omezení pro tabulku `user_role`
 --
 ALTER TABLE `user_role`
-  ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE;

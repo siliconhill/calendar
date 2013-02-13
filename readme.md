@@ -7,6 +7,14 @@ Instalace
 	curl -s http://getcomposer.org/installer | php
 	php composer.phar install
 
+Spustit z prohlížeče `{$basePath}/installation` => dojde k vytvoření db struktury
+
+Testovací uživatel
+------------------
+
+name: test
+pass: tajne
+
 
 Testování
 ---------
