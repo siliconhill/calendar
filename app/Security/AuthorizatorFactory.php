@@ -57,7 +57,11 @@ class AuthorizatorFactory extends \Nette\Object
 			foreach ($user->identity->getRoles() as $role) {
 				$roleId = $this->database->table('role')->where('name', $role)->fetch()->id;
 				foreach ($this->database->table('role_resource')->where('role_id', $roleId) as $role_resource) {
-					$permissions->allow($role_resource->role->name, $role_resource->resource->name, $role_resource->privilege ? : NULL);
+					if ($role_resource->allowed) {
+						$permissions->allow($role_resource->role->name, $role_resource->resource->name, $role_resource->privilege ? : NULL);
+					} else {
+						$permissions->deny($role_resource->role->name, $role_resource->resource->name, $role_resource->privilege ? : NULL);
+					}
 				}
 			}
 		}

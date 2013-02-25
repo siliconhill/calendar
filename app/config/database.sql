@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Počítač: localhost
--- Vygenerováno: Stř 13. úno 2013, 10:24
+-- Vygenerováno: Pon 25. úno 2013, 10:16
 -- Verze MySQL: 5.5.29-MariaDB-log
--- Verze PHP: 5.4.11
+-- Verze PHP: 5.4.12
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -110,10 +110,12 @@ INSERT INTO `role` (`id`, `name`, `role_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `role_resource` (
+  `id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
   `resource_id` int(11) NOT NULL,
   `privilege` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`role_id`,`resource_id`,`privilege`),
+  `allowed` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`role_id`),
   KEY `resource_id` (`resource_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -121,10 +123,8 @@ CREATE TABLE IF NOT EXISTS `role_resource` (
 -- Vypisuji data pro tabulku `role_resource`
 --
 
-INSERT INTO `role_resource` (`role_id`, `resource_id`, `privilege`) VALUES
-(3, 1, 'create'),
-(3, 1, 'default'),
-(3, 1, 'edit');
+INSERT INTO `role_resource` (`id`, `role_id`, `resource_id`, `privilege`, `allowed`) VALUES
+(0, 3, 1, '', 1);
 
 -- --------------------------------------------------------
 
